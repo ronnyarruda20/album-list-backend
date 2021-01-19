@@ -11,9 +11,9 @@ import com.list.music.model.Album;
 
 @Repository
 public interface AlbumRepository extends JpaRepository<Album, Integer> {
-
-	@Query("FROM Album m join m.autor a WHERE (:searchTerm is null or LOWER(m.nome) like %:searchTerm% or LOWER(a.nome) like %:searchTerm%)")
-	Page<Album> search(@Param("searchTerm") String searchTerm, Pageable pageable);
 	
+	
+	@Query("FROM Album m WHERE (:searchTerm is null or LOWER(m.nome) like %:searchTerm% or LOWER(m.autor.nome) like %:searchTerm%)")
+	Page<Album> search(@Param("searchTerm") String searchTerm, Pageable pageable);
 	
 }

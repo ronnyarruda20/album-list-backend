@@ -22,8 +22,8 @@ public class AlbumController {
 	@Autowired
 	private AlbumService service;
 
-	@Autowired
-	private MinioService minioService;
+//	@Autowired
+//	private MinioService minioService;
 
 	@GetMapping("/all")
 	public ResponseEntity<?> listaTodosAlbuns() {

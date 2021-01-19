@@ -12,7 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-
 import com.jlefebure.spring.boot.minio.MinioService;
 import com.list.music.model.Album;
 import com.list.music.repository.AlbumRepository;
@@ -24,8 +23,8 @@ public class AlbumService implements GenericService<Album> {
 	@Autowired
 	private AlbumRepository repository;
 
-	@Autowired
-	private MinioService minioService;
+//	@Autowired
+//	private MinioService minioService;
 
 	@Override
 	public Optional<Album> findById(Integer id) {
@@ -41,12 +40,14 @@ public class AlbumService implements GenericService<Album> {
 
 	public Page<Album> findAll(int page, int size) {
 		PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.ASC, "nome");
-		return  this.repository.findAll(pageRequest);
+		return this.repository.findAll(pageRequest);
 	}
 
 	public Page<Album> search(String searchTerm, int page, int size) {
 		PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.ASC, "nome");
-		return repository.search(searchTerm == null ? searchTerm : searchTerm.toLowerCase(), pageRequest);
+		Page<Album> albums = repository.search(searchTerm == null ? searchTerm : searchTerm.toLowerCase(), pageRequest);
+		albums.getContent().forEach(p -> Hibernate.initialize(p.getAutor()));
+		return albums;
 	}
 
 	public void save(Album album) {
