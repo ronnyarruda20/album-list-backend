@@ -24,7 +24,6 @@ public class AutorDto implements Serializable {
 		setId(autor.getId());
 		setNome(autor.getNome());
 		setAlbums(autor.getAlbums());
-		
 	}
 
 	private Integer id;

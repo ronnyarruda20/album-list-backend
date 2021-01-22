@@ -9,7 +9,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -45,7 +44,7 @@ public class TestController {
 	public void getObject(@PathVariable("object") String object, HttpServletResponse response)
 			throws MinioException, IOException {
 		InputStream inputStream = minioService.get(Path.of(object));
-		InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
+//		InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
 
 		// Set the content type and attachment header.
 		response.addHeader("Content-disposition", "attachment;filename=" + object);
@@ -70,14 +69,14 @@ public class TestController {
 	    }
 	  }
 
-	@PostMapping
-	public void addAttachement(@RequestParam("file") MultipartFile file) throws MinioException {
-		Path path = Path.of(file.getOriginalFilename());
-		try {
-			System.out.println(file.getInputStream() + "  - " + file.getOriginalFilename());
+//	@PostMapping
+//	public void addAttachement(@RequestParam("file") MultipartFile file) throws MinioException {
+//		Path path = Path.of(file.getOriginalFilename());
+//		try {
+//			System.out.println(file.getInputStream() + "  - " + file.getOriginalFilename());
 //            minioService.upload(path, file.getInputStream(), file.getContentType());
-		} catch (IOException e) {
-			throw new IllegalStateException("The file cannot be read", e);
-		}
-	}
+//		} catch (IOException e) {
+//			throw new IllegalStateException("The file cannot be read", e);
+//		}
+//	}
 }
