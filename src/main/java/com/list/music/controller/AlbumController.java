@@ -27,9 +27,6 @@ public class AlbumController {
 	@Autowired
 	private AlbumService service;
 
-//	@Autowired
-//	private MinioService minioService;
-
 	@GetMapping("/all")
 	public ResponseEntity<?> listaTodosAlbuns() {
 		return ResponseEntity.of(service.findAll());
@@ -52,18 +49,24 @@ public class AlbumController {
 	}
 
 	@PostMapping("/save")
-	public void saveAlbum(@RequestParam("file") MultipartFile file, @RequestBody AlbumDto albumDto) {
-		System.out.println(file);
-		System.out.println(albumDto);
-//		Path path = Path.of(albumDto.getFile().getOriginalFilename());
-//		try {
-//			minioService.upload(path, albumDto.getFile().getInputStream(), albumDto.getFile().getContentType());
-//			InputStream inputStream = minioService.get(Path.of(albumDto.getFile().getOriginalFilename()));
-//		} catch (MinioException e) {
-//			throw new IllegalStateException("The file cannot be upload on the internal storage. Please retry later", e);
-//		} catch (IOException e) {
-//			throw new IllegalStateException("The file cannot be read", e);
-//		}
+	public ResponseEntity<ResponseMessage> saveAlbum(@RequestBody AlbumDto albumDto) {
+		this.service.saveDto(albumDto);
+		String message = "successfully save";
+		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+	}
+
+	@PostMapping("/delete")
+	public ResponseEntity<ResponseMessage> deleteAlbum(@RequestParam("id") String id) {
+		String message = "";
+		try {
+			service.removeAlbum(Integer.valueOf(id));
+		} catch (MinioException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		message = "successfully deleted";
+		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
 	}
 
 	@PostMapping

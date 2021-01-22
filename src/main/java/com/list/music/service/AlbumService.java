@@ -9,6 +9,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.hibernate.Hibernate;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.jlefebure.spring.boot.minio.MinioException;
 import com.jlefebure.spring.boot.minio.MinioService;
+import com.list.music.dto.AlbumDto;
 import com.list.music.model.Album;
 import com.list.music.repository.AlbumRepository;
 
@@ -31,6 +33,9 @@ public class AlbumService implements GenericService<Album> {
 
 	@Autowired
 	private MinioService minioService;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 
 	@Override
 	public Optional<Album> findById(Integer id) {
@@ -63,6 +68,11 @@ public class AlbumService implements GenericService<Album> {
 		return albums;
 	}
 
+	public void saveDto(AlbumDto albumDto) {
+		Album album = modelMapper.map(albumDto, Album.class);
+		this.save(album);
+	}
+	
 	public void save(Album album) {
 		repository.save(album);
 	}
@@ -75,12 +85,21 @@ public class AlbumService implements GenericService<Album> {
 		this.save(optional.get());
 	}
 
+	public void removeAlbum(Integer id) throws MinioException, IOException {
+		Optional<Album> optional = repository.findById(id);
+		if (optional.isPresent() && optional.get().getImagem() != null) {
+			Path path = Path.of(optional.get().getImagem());
+			minioService.remove(path);
+		}
+		this.repository.delete(optional.get());
+	}
+
 	private String loadingFile(String object) {
 		try {
 			InputStream inputStream = this.minioService.get(Path.of(object));
 			return Base64Utils.encodeToString(inputStream.readAllBytes());
 		} catch (MinioException e) {
-			e.printStackTrace();
+			System.out.println(e);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
