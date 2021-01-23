@@ -2,8 +2,6 @@ package com.list.music.dto;
 
 import java.io.Serializable;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import com.list.music.model.Album;
 
 import lombok.Getter;
@@ -35,6 +33,6 @@ public class AlbumDto implements Serializable {
 
 	private AutorDto autor;
 
-	private MultipartFile file;
+	private String file;
 
 }

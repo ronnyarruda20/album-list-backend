@@ -9,7 +9,7 @@ INSERT INTO MUSIC.AUTOR (ID, NOME) VALUES
   (4, 'Guns N'' Roses');
 
 INSERT INTO MUSIC.ALBUM (ID, NOME, AUTOR_ID, IMAGEM) VALUES
-  (1, 'Harakiri', 1, 'logo.png'),
+  (1, 'Harakiri', 1, null),
   (2, 'Black Blooms', 1, null),
   (3, 'The Rough Dog', 1, null),
   (4,'The Rising Tied',  2, null),

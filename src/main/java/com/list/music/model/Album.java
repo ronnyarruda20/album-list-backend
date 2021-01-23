@@ -29,7 +29,7 @@ public class Album implements Serializable {
 
 	private String imagem;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
 	@JoinColumn(name = "AUTOR_ID")
 	private Autor autor;
 
