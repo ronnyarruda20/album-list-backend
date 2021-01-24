@@ -56,7 +56,7 @@ public class AlbumController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		String message = "successfully save";
+		String message = "Salvo com sucesso";
 		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
 	}
 
