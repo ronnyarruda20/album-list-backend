@@ -62,8 +62,7 @@ public class JwtAuthenticationController {
 		} catch (DisabledException e) {
 			throw new Exception("USER_DISABLED", e);
 		} catch (BadCredentialsException e) {
-			e.printStackTrace();
-			throw new Exception("INVALID_CREDENTIALS", e);
+			throw new Exception("autenticate.badcredencials", e);
 		}
 	}
 
