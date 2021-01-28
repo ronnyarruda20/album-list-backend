@@ -25,6 +25,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 			throw new UsernameNotFoundException("User not found with name: " + userName);
 		}
 		return new UserResponse(userModel.get().getUserName(), userModel.get().getPassword(), new ArrayList<>()).loadUser(userModel.get());
+		
 	}
 
 }

@@ -1,0 +1,9 @@
+version: '3'
+services:
+  album_list_api:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    ports:
+      - '8080:8080'
+      - '5005:5005'
