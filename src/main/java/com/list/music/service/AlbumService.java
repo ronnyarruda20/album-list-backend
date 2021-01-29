@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.multipart.MultipartFile;
@@ -64,8 +65,8 @@ public class AlbumService implements GenericService<Album> {
 		return albums;
 	}
 
-	public Page<Album> search(String searchTerm, int page, int size) {
-		PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.ASC, "nome");
+	public Page<Album> search(String searchTerm, int page, int size, String sort) {
+		PageRequest pageRequest = PageRequest.of(page, size, Direction.valueOf(sort), "nome");
 		Page<Album> albums = repository.search(searchTerm == null ? searchTerm : searchTerm.toLowerCase(), pageRequest);
 		albums.getContent().forEach(p -> {
 			Hibernate.initialize(p.getAutor());

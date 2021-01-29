@@ -42,8 +42,9 @@ public class AlbumController {
 	@GetMapping("/list")
 	public PageableResponse<Album> search(@RequestParam(value = "searchTerm", required = false) String searchTerm,
 			@RequestParam(value = "pageNumber", required = false, defaultValue = "0") int page,
-			@RequestParam(value = "pageSize", required = false, defaultValue = "5") int size) {
-		return new PageableResponse<Album>(service.search(searchTerm, page, size));
+			@RequestParam(value = "pageSize", required = false, defaultValue = "5") int size,
+			@RequestParam(value = "sort", required = false, defaultValue = "ASC") String sort) {
+		return new PageableResponse<Album>(service.search(searchTerm, page, size, sort));
 
 	}
 
