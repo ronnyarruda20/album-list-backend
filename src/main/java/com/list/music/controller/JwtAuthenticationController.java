@@ -50,10 +50,15 @@ public class JwtAuthenticationController {
 	@RequestMapping(value = "/refreshtoken", method = RequestMethod.GET)
 	public ResponseEntity<?> refreshtoken(HttpServletRequest request) throws Exception {
 		DefaultClaims claims = (io.jsonwebtoken.impl.DefaultClaims) request.getAttribute("claims");
+		try {
+			Map<String, Object> expectedMap = getMapFromIoJsonwebtokenClaims(claims);
+			String token = jwtTokenUtil.doGenerateRefreshToken(expectedMap, expectedMap.get("sub").toString());
+			return ResponseEntity.ok(new JwtResponse(token));
+		} catch (NullPointerException e) {
+			System.out.println(e.getMessage());
+			throw new Exception("token.invalidtoken", e);
+		}
 
-		Map<String, Object> expectedMap = getMapFromIoJsonwebtokenClaims(claims);
-		String token = jwtTokenUtil.doGenerateRefreshToken(expectedMap, expectedMap.get("sub").toString());
-		return ResponseEntity.ok(new JwtResponse(token));
 	}
 
 	private void authenticate(String username, String password) throws Exception {
