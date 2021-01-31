@@ -25,18 +25,19 @@ public class AutorController {
 	public ResponseEntity<?> listaTodosAutores() {
 		return ResponseEntity.of(service.findAll());
 	}
-	
+
 	@PostMapping("/save")
 	public ResponseEntity<ResponseMessage> save(@RequestBody AutorDto autorDto) {
 		this.service.save(autorDto);
 		String message = "Salvo com sucesso";
 		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
 	}
-	
+
 	@PostMapping("/delete")
 	public ResponseEntity<ResponseMessage> delete(@RequestParam("id") String id) {
 		service.remove(Integer.valueOf(id));
 		String message = "Removido com sucesso";
 		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
 	}
+
 }

@@ -74,5 +74,10 @@ public class AlbumController {
 		message = "successfully deleted";
 		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
 	}
+	
+	@GetMapping("/teste")
+	public String teste() {
+		return "deu certo";
 
+	}
 }

@@ -1,7 +1,9 @@
 package com.list.music.service;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -25,7 +27,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Base64Utils;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.jlefebure.spring.boot.minio.MinioException;
 import com.jlefebure.spring.boot.minio.MinioService;
@@ -91,10 +92,13 @@ public class AlbumService implements GenericService<Album> {
 		repository.save(album);
 	}
 
-	public void addImageInAlbum(MultipartFile file, String id) throws MinioException, IOException {
+	public void addImageInAlbum(File file, String id) throws MinioException, IOException {
 		Optional<Album> optional = repository.findById(Integer.valueOf(id));
-		Path path = Path.of(file.getOriginalFilename());
-		minioService.upload(path, file.getInputStream(), file.getContentType());
+		Path path = Path.of(file.getName());
+		InputStream is = new BufferedInputStream(new FileInputStream(file));
+		String mimeType = URLConnection.guessContentTypeFromStream(is);
+		minioService.upload(path, is, mimeType);
+		optional.get().setImagem(file.getName());
 		this.save(optional.get());
 	}
 
@@ -158,10 +162,21 @@ public class AlbumService implements GenericService<Album> {
 		}
 		return null;
 	}
-	
+
 	private void clearFile(String fileName) {
 		File f = new File(fileName);
 		f.delete();
+	}
+
+	public void removeAllImages() {
+		minioService.list().forEach(i -> {
+			Path path = Path.of(i.name);
+			try {
+				minioService.remove(path);
+			} catch (MinioException e) {
+				e.printStackTrace();
+			}
+		});
 	}
 
 }
