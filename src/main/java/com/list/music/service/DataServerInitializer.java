@@ -28,7 +28,7 @@ public class DataServerInitializer {
 		for (File f : getResourceFolderFiles("images")) {
 			if (!f.getName().contains(".")) {
 				try {
-					this.service.addImageInAlbum(f, f.getName());
+					this.service.addImageInAlbum(f, f.getAbsoluteFile().getName());
 				} catch (MinioException e) {
 					e.printStackTrace();
 				} catch (IOException e) {

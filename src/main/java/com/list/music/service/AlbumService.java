@@ -96,8 +96,7 @@ public class AlbumService implements GenericService<Album> {
 		Optional<Album> optional = repository.findById(Integer.valueOf(id));
 		Path path = Path.of(file.getName());
 		InputStream is = new BufferedInputStream(new FileInputStream(file));
-		String mimeType = URLConnection.guessContentTypeFromStream(is);
-		minioService.upload(path, is, mimeType);
+		minioService.upload(path, is, this.getContentType(is));
 		optional.get().setImagem(file.getName());
 		this.save(optional.get());
 	}
@@ -170,7 +169,7 @@ public class AlbumService implements GenericService<Album> {
 
 	public void removeAllImages() {
 		minioService.list().forEach(i -> {
-			Path path = Path.of(i.name);
+			Path path = Path.of(i.objectName());
 			try {
 				minioService.remove(path);
 			} catch (MinioException e) {
