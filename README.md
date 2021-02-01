@@ -6,7 +6,7 @@
 
 
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
-[Docker](https://www.docker.com/products/docker-desktop),  [JDK11](https://www.oracle.com/br/java/technologies/javase-jdk11-downloads.html).
+[Docker](https://www.docker.com/products/docker-desktop),  [JDK11](https://www.oracle.com/br/java/technologies/javase-jdk11-downloads.html),  [Maven](https://maven.apache.org/download.cgi).
 
 ### Rodando o BackEnd 
 
