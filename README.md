@@ -1,14 +1,14 @@
 # album-list-backend
 
- Este projeto te com tem como base fornercer uma api para gerenciamento de álbuns.
- 
+ Este projeto tem como base fornercer uma api para gerenciamento de álbuns.
+
 ### Pré-requisitos
 
 
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
-[Doker](https://www.docker.com/products/docker-desktop),  [JDK11](https://www.oracle.com/br/java/technologies/javase-jdk11-downloads.html).
+[Docker](https://www.docker.com/products/docker-desktop),  [JDK11](https://www.oracle.com/br/java/technologies/javase-jdk11-downloads.html).
 
-### Rodando o Back End 
+### Rodando o BackEnd 
 
 ## Clone este repositório
 ``` 
