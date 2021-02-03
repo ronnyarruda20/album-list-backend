@@ -24,6 +24,22 @@ mvn clean install
 ```
 ## Rode o projeto
 ```
+./mvnw spring-boot:run
+```
+
+### Pronto agora sua api estará disponível [http://localhost:8080](http://localhost:8080)
+
+------------------------------------------ou--------------------------------------------------
+
+# Com docker...
+
+## Instale as depedencias 
+```
+mvn clean install
+```
+
+## Rode o projeto
+```
 docker-compose up -d --build
 ```
 ### Pronto agora sua api estará disponível [http://localhost:8080](http://localhost:8080)
