@@ -80,7 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.cors().and()
 				// Não cheque essas requisições
 				.authorizeRequests()
-				.antMatchers("/auth/login", "/h2-console/**", "/v2/api-docs", "/configuration/ui",
+				.antMatchers("*/index.html","/auth/login", "/h2-console/**", "/v2/api-docs", "/configuration/ui",
 						"/swagger-resources/**", "/configuration/**", "/swagger-ui.html", "/webjars/**")
 				.permitAll().anyRequest().authenticated()
 				// Qualquer outra requisição deve ser checada
