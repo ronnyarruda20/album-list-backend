@@ -25,3 +25,17 @@ jobs:
         run: |
           docker build . --file Dockerfile --tag ${{ env.DOCKER_CONTAINER_REGISTRY }}/${{ github.event.repository.name }}:latest
           docker push ${{ env.DOCKER_CONTAINER_REGISTRY }}/${{ github.event.repository.name }}:latest
+
+      - name: Executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script: |
+            docker pull ${{ env.DOCKER_CONTAINER_REGISTRY }}/${{ github.event.repository.name }}:latest
+            docker rm --force ${{ github.event.repository.name }}
+            docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docker rmi
+            docker run -d -p 8080:80 --name ${{ github.event.repository.name }} \
+            -e TZ=America/Cuiaba --restart always ${{ env.DOCKER_CONTAINER_REGISTRY }}/${{ github.event.repository.name }}:latest
+            ls -al
